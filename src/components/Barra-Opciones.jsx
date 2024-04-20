@@ -5,7 +5,7 @@ import Trailer from '../assets/recursos/truck-2-90.png'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {  useForm } from 'react-hook-form'
 import * as z from 'zod'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { SimContext } from '../context/simulador'
 import React, { useState } from "react";
 
@@ -22,12 +22,8 @@ const validationSchema = z.object({
 // export default function BarraOpciones() {
   
   export default function BarraOpciones() {
-    const [valores, setValores] = useState({
-      valor1: 50,
-      valor2: 3,
-      valor3: 10
-    });
-    const { tarifas, setTarifas, estadisticas } = useContext(SimContext);
+    
+    const { tarifas, setTarifas, estadisticas, valores, setValores, setVehiculos } = useContext(SimContext);
     const onSubmit = (data) => {
       setTarifas(data)
     }
@@ -50,44 +46,40 @@ const validationSchema = z.object({
       const { name, value } = event.target;
       setValores({ ...valores, [name]: parseInt(value) }); // Convertir el valor a número usando parseInt
     };
+
+
     const obtenerVelocidad = (valor) => {
       switch (valor) {
         case 1:
-          return "Muy lenta (x0.5)";
+          return "Extremadamente rápida (x3)";
         case 2:
-          return "Lenta (x0.75)";
+          return "Extremadamente rápida (x2.5)";
         case 3:
-          return "Normal (x1)";
+          return "Extremadamente rápida (x2.25)";
         case 4:
-          return "Rápida (x1.5)";
+          return "Extremadamente rápida (x2)";
         case 5:
-          return "Muy rápida (x2)";
+          return "Extremadamente rápida (x1.75)";
+        case 6:
+          return "Muy rápida (x1.5)";
+        case 7:
+          return "Rápida (x1.25)";
+        case 8:
+          return "Normal (x1)";
+        case 9:
+          return "Lenta (x0.75)";
+        case 10:
+          return "Muy lenta (x0.5)";
         default:
-          return "Desconocida";
+          return "Normal (x1)";
+
       }
     };
 
-    // Estado para almacenar la cantidad de vehículos en cada caseta
-  const [cantidadVehiculos, setCantidadVehiculos] = useState({
-    caseta1: 0,
-    caseta2: 0,
-    caseta3: 0,
-    caseta4: 0,
-    caseta5: 0,
-    caseta6: 0,
-  });
-
-  // Función para actualizar la cantidad de vehículos en una caseta específica
-  const actualizarCantidadVehiculos = (caseta, cantidad) => {
-    setCantidadVehiculos(prevState => ({
-      ...prevState,
-      [caseta]: cantidad,
-    }));
-  };
 
 
   return (
-    <aside className="h-screen w-[500px] bg-violet-400 p-4 flex flex-col gap-3">
+    <aside className="h-screen w-[500px] overflow-y-auto bg-violet-400 p-4 flex flex-col gap-3">
     <div>
       <h2 className=" text-xl text-center mb-1">Simulacion</h2>
       <div className="flex flex-col gap-2 text-md text-white">
@@ -120,10 +112,10 @@ const validationSchema = z.object({
           <input
             type="range"
             min={1}
-            max={5}
-            value={valores.valor2}
+            max={10}
+            value={valores.velocidad}
             onChange={handleChange}
-            name="valor2"
+            name="velocidad"
             className="accent-blue-800 w-full"
           />
             <div className="flex justify-between -mt-2 text-white">
@@ -137,29 +129,29 @@ const validationSchema = z.object({
             Muy rápida
           </span>
           </div>
-          <p className="">Velocidad de simulacion: {obtenerVelocidad(valores.valor2)}</p>
+          <p className="">Velocidad de simulacion: {obtenerVelocidad(valores.velocidad)}</p>
         </div>
 
         <div className="relative mb-1 bg-violet-500 opacity-90 rounded-lg p-1 text-md px-4 ">
           <label htmlFor="labels-range-input">Tiempo promedio de atención</label><br />
           <input
             type="range"
-            min={1}
-            max={60}
-            value={valores.valor3}
+            min={20}
+            max={1}
+            value={valores.atencion}
             onChange={handleChange}
-            name="valor3"
+            name="atencion"
             className="accent-blue-800 w-full"
           />
            <div className="flex justify-between -mt-2 text-white">
           <span>
-            Min 1 min
+            Min 1 seg
           </span>
           <span className="">
-            Max 60 min
+            Max 20 seg
           </span>
           </div>
-          <p>Tiempo: {valores.valor3} min</p>
+          <p>Tiempo: {valores.atencion} seg</p>
         </div>
       </div>
     </div>

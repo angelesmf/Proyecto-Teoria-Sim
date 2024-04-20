@@ -184,6 +184,13 @@ export default function SimProvider({ children }) {
     ]
   ])
   const [tarifas, setTarifas] = useState({liviano:20, dos:30, tres:40, cuatro:50, cinco:60, seis:70})
+  const [actions, setActions] = useState({play: true, pause: false})
+
+  const [valores, setValores] = useState({
+    valor1: 50,
+    velocidad: 1,
+    atencion: 5
+  });
 
   const [estadisticas, setEstadisticas] = useState([
     { caseta: 'c1', vehiculos:[
@@ -227,7 +234,7 @@ export default function SimProvider({ children }) {
       { type: 'Auto', count: 0 }
     ],
     recaudacion: 0,
-    
+
   },
 
   ]);
@@ -240,7 +247,9 @@ export default function SimProvider({ children }) {
         tarifas,
         setTarifas,
         estadisticas,
-        setEstadisticas
+        setEstadisticas,
+        valores,
+        setValores,
       }}
     >
       {children}

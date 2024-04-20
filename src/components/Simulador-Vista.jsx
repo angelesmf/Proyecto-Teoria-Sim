@@ -4,9 +4,13 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { SimContext } from '../context/simulador'
 
 export default function SimuladorVista() {
-  const { vehiculos, setVehiculos, tarifas, setEstadisticas } = useContext(SimContext);
+  const { vehiculos, setVehiculos, tarifas, setEstadisticas, valores } = useContext(SimContext);
 
   const [vehiculosCobrados, setVehiculosCobrados] = useState([]);
+
+  const VELOCIDAD_ATENCION = valores.atencion * 1000;
+
+
 
 
 
@@ -21,6 +25,8 @@ export default function SimuladorVista() {
 
   
 useEffect(() => {
+  const VELOCIDAD_SIMULACION = valores.velocidad * 100;
+  console.log(VELOCIDAD_SIMULACION)
   const interval = setInterval(() => {
     setVehiculos((vehiculos) =>
       vehiculos.map((vehiculosCarril) => {
@@ -50,9 +56,9 @@ useEffect(() => {
         return vehiculosActualizados.filter(vehiculo => vehiculo.position <= 100);
       })
     );
-  }, 100);
+  }, VELOCIDAD_SIMULACION);
   return () => clearInterval(interval);
-}, []);
+}, [valores.velocidad]);
 
 // Efecto para reanudar los vehículos después de detenerse en la caseta
 useEffect(() => {
@@ -73,7 +79,7 @@ useEffect(() => {
             )
           );
 
-        }, 5000);
+        }, VELOCIDAD_ATENCION);
       }
     })
   );

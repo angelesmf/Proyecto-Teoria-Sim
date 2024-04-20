@@ -38,7 +38,9 @@ export default function BarraAcciones() {
         </svg>
       </Boton>
 
-      <Boton texto='Reiniciar' className='bg-red-500'>
+      <Boton texto='Reiniciar' className='bg-red-500' onClick={()=>{
+        window.location.reload()
+      }}>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           viewBox='0 0 24 24'

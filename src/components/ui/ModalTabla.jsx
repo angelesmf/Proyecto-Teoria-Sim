@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { SimContext } from "../../context/simulador";
 
-// Contenido de la tabla modal en html plano --pendiente hacer valores dinamicos
 export default function ModalTabla() {
+   const {estadisticas} = useContext(SimContext);
+
   return (
     <div className="p-6 size-[100%] text-2xl ">
       <caption className="flex justify-center text-3xl text-white">
@@ -16,41 +18,26 @@ export default function ModalTabla() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Peaje 1</td>
-            <td>8 </td>
-            <td> L 160</td>
-          </tr>
-          <tr>
-            <td>Peaje 2</td>
-            <td>6 </td>
-            <td> L 120</td>
-          </tr>
-          <tr>
-            <td>Peaje 3</td>
-            <td>12</td>
-            <td> L 240</td>
-          </tr>
-          <tr>
-            <td>Peaje 4</td>
-            <td>10 </td>
-            <td> L 200</td>
-          </tr>
-          <tr>
-            <td>Peaje 5</td>
-            <td>11 </td>
-            <td> L 220</td>
-          </tr>
-          <tr>
-            <td>Peaje 6</td>
-            <td>5 </td>
-            <td> L 100</td>
-          </tr>
-          <tr>
-            <td>Peaje 7</td>
-            <td>14 </td>
-            <td> L 280</td>
-          </tr>
+          {estadisticas.map((estadistica) => (
+            <tr key={estadistica.caseta}>
+              <td>
+                Caseta{" "}
+                {
+                  //Las cassetas son de la forma c1, c2, c3, c4... por lo que se puede acceder a la ultima letra con estadistica.caseta[1]
+                  estadistica.caseta[1]
+
+                }
+              </td>
+              <td>
+                {estadistica.vehiculos.map((v) => (
+                  <p key={v.type}>
+                    {v.type}: {v.count}
+                  </p>
+                ))}
+              </td>
+              <td>${estadistica.recaudacion}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
