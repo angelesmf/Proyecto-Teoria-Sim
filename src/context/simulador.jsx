@@ -103,25 +103,25 @@ export default function SimProvider({ children }) {
         detenido: false,
         size: 20,
         type: 'Trailer',
-        ejes: '2'
+        ejes: 'liviano'
       },
       {
         id: 'c4-v2',
-        img: Auto,
+        img: Camion,
         position: 20,
         detenido: false,
         size: 20,
-        type: 'Auto',
-        ejes: ''
+        type: 'Camion',
+        ejes: '2'
       },
       {
         id: 'c4-v3',
-        img: Trailer,
+        img: Auto,
         position: 50,
         detenido: false,
         size: 20,
-        type: 'Trailer',
-        ejes: '4'
+        type: 'Auto',
+        ejes: '5'
       }
     ],
     [
@@ -186,12 +186,50 @@ export default function SimProvider({ children }) {
   const [tarifas, setTarifas] = useState({liviano:20, dos:30, tres:40, cuatro:50, cinco:60, seis:70})
 
   const [estadisticas, setEstadisticas] = useState([
-    { caseta: 'c1', vehiculos: 0, recaudado: 0 },
-    { caseta: 'c2', vehiculos: 0, recaudado: 0 },
-    { caseta: 'c3', vehiculos: 0, recaudado: 0 },
-    { caseta: 'c4', vehiculos: 0, recaudado: 0 },
-    { caseta: 'c5', vehiculos: 0, recaudado: 0 },
-    { caseta: 'c6', vehiculos: 0, recaudado: 0 },
+    { caseta: 'c1', vehiculos:[
+      { type: 'Trailer', count: 0 },
+      { type: 'Camion', count: 0 },
+      { type: 'Auto', count: 0 }
+    ],
+    recaudacion: 0,
+    },
+    { caseta: 'c2', vehiculos:[
+      { type: 'Trailer', count: 0 },
+      { type: 'Camion', count: 0 },
+      { type: 'Auto', count: 0 }
+    ],
+    recaudacion: 0,
+    },
+    { caseta: 'c3', vehiculos:[
+      { type: 'Trailer', count: 0 },
+      { type: 'Camion', count: 0 },
+      { type: 'Auto', count: 0 }
+    ],
+    recaudacion: 0,
+    },
+    { caseta: 'c4', vehiculos:[
+      { type: 'Trailer', count: 0 },
+      { type: 'Camion', count: 0 },
+      { type: 'Auto', count: 0 }
+    ],
+    recaudacion: 0,
+    },
+    { caseta: 'c5', vehiculos:[
+      { type: 'Trailer', count: 0 },
+      { type: 'Camion', count: 0 },
+      { type: 'Auto', count: 0 }
+    ],
+    recaudacion: 0,
+    },
+    { caseta: 'c6', vehiculos:[
+      { type: 'Trailer', count: 0 },
+      { type: 'Camion', count: 0 },
+      { type: 'Auto', count: 0 }
+    ],
+    recaudacion: 0,
+    
+  },
+
   ]);
 
   return (

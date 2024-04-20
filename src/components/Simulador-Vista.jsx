@@ -1,10 +1,12 @@
 import Carretera from './Carretera'
 
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { SimContext } from '../context/simulador'
 
 export default function SimuladorVista() {
   const { vehiculos, setVehiculos, tarifas, setEstadisticas } = useContext(SimContext);
+
+  const [vehiculosCobrados, setVehiculosCobrados] = useState([]);
 
 
 
@@ -16,10 +18,6 @@ export default function SimuladorVista() {
     { id: 'c5', status: true },
     { id: 'c6', status: true },
   ]);
-// Estado para rastrear qué vehículo está detenido
-const [vehiculoDetenido, setVehiculoDetenido] = useState(null);
-
-
 
   
 useEffect(() => {
@@ -55,6 +53,7 @@ useEffect(() => {
   }, 100);
   return () => clearInterval(interval);
 }, []);
+
 // Efecto para reanudar los vehículos después de detenerse en la caseta
 useEffect(() => {
   vehiculos.forEach((vehiculosCarril) =>
@@ -65,12 +64,15 @@ useEffect(() => {
             currentVehiculos.map((vehiculosCarril) =>
               vehiculosCarril.map((v) => {
                 if (v.id === vehiculo.id) {
+
                   return { ...v, detenido: false };
                 }
+
                 return v;
               })
             )
           );
+
         }, 5000);
       }
     })
@@ -84,9 +86,7 @@ useEffect(() => {
       // Buscar si hay algún vehículo detenido en la caseta
       const vehiculoDetenido = vehiculos.some((vehiculosCarril) =>
         vehiculosCarril.some((vehiculo) => {
-          if (vehiculo.detenido && vehiculo.position === 58 && vehiculo.id.includes(caseta.id)) { 
-            // Actualizar el estado del vehículo detenido
-            setVehiculoDetenido(vehiculo);
+          if (vehiculo.detenido && vehiculo.position === 58) { 
             return true;
           }
           return false;
@@ -103,6 +103,20 @@ useEffect(() => {
     })
   );
 }, [vehiculos]);
+
+// Obtener el vehículo detenido en la caseta y llamar calculoCaseta para calcular el costo una vez que el vehículo pase
+// debes actualizar el estado de los vehículos cobrados para evitar que se vuelva a calcular el costo
+useEffect(() => {
+  vehiculos.forEach((vehiculosCarril) =>
+    vehiculosCarril.forEach((vehiculo) => {
+      if (vehiculo.detenido && vehiculo.position === 58 && !vehiculosCobrados.includes(vehiculo.id)) {
+        calculoCaseta(vehiculo);
+        setVehiculosCobrados((vehiculosCobrados) => [...vehiculosCobrados, vehiculo.id]);
+      }
+    })
+  );
+}, [vehiculos, vehiculosCobrados]);
+
 
 const calculoCaseta = (vehiculo) => {
   //Segun el tipo de vehiculo se calcula el costo
@@ -131,28 +145,27 @@ const calculoCaseta = (vehiculo) => {
       break;
   }
   // console.log(`El vehículo de tipo ${vehiculo?.type} debe pagar L.${costo}`); 
-  console.log(`Auto con ${vehiculo?.ejes} ejes, pago L.${costo}`);
+
+  // console.log(`Auto con ${vehiculo?.ejes} ejes, pago L.${costo}`);
   // Actualizar las estadísticas recuerda que los id de vehiculos son 'c1-v1' y la carretera es 'c1'
-  const caseta = vehiculo.id.split('-')[0];
-  console.log(caseta)
-  setEstadisticas((estadisticas) =>
-    estadisticas.map((estadistica) => {
-      if (estadistica.caseta === caseta) {
-        return { ...estadistica, vehiculos: estadistica.vehiculos + 1, recaudado: estadistica.recaudado + costo };
-      }
-      return estadistica;
+setEstadisticas((estadisticas) =>
+  estadisticas.map((estadistica) => {
+    if (estadistica.caseta === vehiculo.id.slice(0, 2)) {
+      return {
+        ...estadistica,
+        vehiculos: estadistica.vehiculos.map((v) => {
+          if (v.type === vehiculo.type) {
+            return { ...v, count: v.count + 1 };
+          }
+          return v;
+        }),
+        recaudacion: estadistica.recaudacion + costo,
+      };
     }
-    )
-  );
-
+    return estadistica;
+  })
+);
 }
-
-useEffect(() => {
-
-    if (vehiculoDetenido){
-    calculoCaseta(vehiculoDetenido)
-  }
-}, [vehiculoDetenido]);
 
 
 

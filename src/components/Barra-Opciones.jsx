@@ -344,53 +344,59 @@ const validationSchema = z.object({
               <td>4</td>
               <td>5</td>
               <td>6</td>
-              <td>7</td>
             </thead>
 
             <tbody className='text-center'>
-              <tr className>
+              <tr >
                 <td className='flex justify-end '>
                   <img src={Auto} alt='Auto' className='h-6' />
                 </td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
+                {
+                  //Estadisticas de las casetas con el tipo de vehiculo Auto
+
+                  estadisticas.map((caseta) => (
+                    <td key={caseta.caseta}>
+                      {caseta.vehiculos.find((v) => v.type === 'Auto')?.count}
+                    </td>
+                  ))
+
+                }
               </tr>
 
               <tr >
                 <td className='flex justify-end '>
                   <img src={Camion} alt='Camion' className=' h-6' />
                 </td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
+                {
+                  //Estadisticas de las casetas con el tipo de vehiculo Camion
+
+                  estadisticas.map((caseta) => (
+                    <td key={caseta.caseta}>
+                      {caseta.vehiculos.find((v) => v.type === 'Camion')?.count}
+                    </td>
+                  ))
+
+                }
               </tr>
 
               <tr >
                 <td className='flex justify-end '>
                   <img src={Trailer} alt='Trailer' className='  h-6' />
                 </td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
-                <td>2</td>
+                {
+                  //Estadisticas de las casetas con el tipo de vehiculo Trailer
+
+                  estadisticas.map((caseta) => (
+                    <td key={caseta.caseta}>
+                      {caseta.vehiculos.find((v) => v.type === 'Trailer')?.count}
+                    </td>
+                  ))
+
+                }
               </tr>
             </tbody>
           </table>
-          {
-            JSON.stringify(estadisticas)
-          }
+
         </div>
       </div>
     </aside>
