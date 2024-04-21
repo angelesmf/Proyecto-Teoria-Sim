@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import Trailer from '../assets/recursos/truck-2.png'
 import Camion from '../assets/recursos/truck.png'
 import Auto from '../assets/recursos/car.png'
@@ -184,10 +184,10 @@ export default function SimProvider({ children }) {
     ]
   ])
   const [tarifas, setTarifas] = useState({liviano:20, dos:30, tres:40, cuatro:50, cinco:60, seis:70})
-  const [actions, setActions] = useState({play: true, pause: false})
+  const [actions, setActions] = useState({play: false, pause: true})
 
   const [valores, setValores] = useState({
-    valor1: 50,
+    vehiculos: 18,
     velocidad: 1,
     atencion: 5
   });
@@ -239,6 +239,25 @@ export default function SimProvider({ children }) {
 
   ]);
 
+  //Agregar vehiculos segun valores.vehiculos
+  const addVehiculos = () => {
+    let newVehiculos = []
+    for (let i = 0; i < valores.vehiculos; i++) {
+      let vehiculo = {
+        id: `c${i + 1}-v${i + 1}`,
+        img: Trailer,
+        position: 0,
+        detenido: false,
+        size: 20,
+        type: 'Trailer',
+        ejes: 'liviano'
+      }
+      newVehiculos.push(vehiculo)
+    }
+    setVehiculos(newVehiculos)
+  } //No funciona :(
+
+
   return (
     <SimContext.Provider
       value={{
@@ -250,6 +269,8 @@ export default function SimProvider({ children }) {
         setEstadisticas,
         valores,
         setValores,
+        actions,
+        setActions
       }}
     >
       {children}

@@ -4,11 +4,22 @@ import BotonModal from './ui/BotonModal'
 import Auto from '../assets/recursos/car.png'
 import Camion from '../assets/recursos/truck.png'
 import Trailer from '../assets/recursos/truck-2.png'
+import { useContext } from 'react'
+import { SimContext } from '../context/simulador'
 
 export default function BarraAcciones() {
+  const {actions, setActions} = useContext(SimContext);
+  //const [actions, setActions] = useState({play: true, pause: false})
+
+
+
   return (
     <header className='h-screen w-32 bg-slate-200 flex flex-col gap-2 p-4'>
-      <Boton texto='Reproducir' className='bg-green-500'>
+      <Boton texto='Reproducir' className={`bg-green-500 ${
+        actions.play ? '' : 'animation-tada'
+      }`} onClick={()=>{
+        setActions({...actions, play: true, pause: false})
+      }}>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           viewBox='0 0 24 24'
@@ -23,7 +34,9 @@ export default function BarraAcciones() {
         </svg>
       </Boton>
 
-      <Boton texto='Pausar' className='bg-blue-500'>
+      <Boton texto='Pausar' className='bg-blue-500' onClick={()=>{
+        setActions({...actions, play: false, pause: true})
+      }}>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           viewBox='0 0 24 24'
