@@ -9,6 +9,7 @@ import { useContext, useEffect } from 'react'
 import { SimContext } from '../context/simulador'
 import React, { useState } from "react";
 
+//Esquema de Validación
 const validationSchema = z.object({
   liviano: z.number()
     .min(0, { message: 'El valor minimo es 0' }),
@@ -19,8 +20,8 @@ const validationSchema = z.object({
   'seis': z.number() .min(0, { message: 'El valor minimo es 0' })
 })
 
-// export default function BarraOpciones() {
-  
+
+  // Formulario de Configuración de Tarifas
   export default function BarraOpciones() {
     
     const { tarifas, setTarifas, estadisticas, valores, setValores, setVehiculos } = useContext(SimContext);
@@ -42,6 +43,7 @@ const validationSchema = z.object({
         seis: tarifas.seis
       }
     })
+    //Controles de la Simulación
     const handleChange = (event) => {
       const { name, value } = event.target;
       setValores({ ...valores, [name]: parseInt(value) }); // Convertir el valor a número usando parseInt
@@ -79,12 +81,14 @@ const validationSchema = z.object({
 
 
   return (
+    //Visualización de la Configuración
     <aside className="h-screen w-[500px] overflow-y-auto bg-violet-400 p-4 flex flex-col gap-3">
     <div>
       <h2 className=" text-xl text-center mb-1">Simulacion</h2>
       <div className="flex flex-col gap-2 text-md text-white">
       <div className="relative mb-1 bg-violet-500 opacity-90 rounded-lg p-1 text-md px-4">
           <label htmlFor="labels-range-input">Cantidad de vehiculos </label> <br />
+          
           <input
             type="range"
             min={1}

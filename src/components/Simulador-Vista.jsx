@@ -8,11 +8,8 @@ export default function SimuladorVista() {
 
   const [vehiculosCobrados, setVehiculosCobrados] = useState([]);
 
+//Simulación del Movimiento de Vehículos
   const VELOCIDAD_ATENCION = valores.atencion * 1000;
-
-
-
-
 
   const [casetas, setCasetas] = useState([
     { id: 'c1', status: true },
@@ -23,7 +20,7 @@ export default function SimuladorVista() {
     { id: 'c6', status: true },
   ]);
 
-  
+//Movimiento de Vehículos
 useEffect(() => {
   const VELOCIDAD_SIMULACION = valores.velocidad * 100;
   console.log(VELOCIDAD_SIMULACION)
