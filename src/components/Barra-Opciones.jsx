@@ -23,7 +23,7 @@ const validationSchema = z.object({
   
   export default function BarraOpciones() {
     
-    const { tarifas, setTarifas, estadisticas, valores, setValores, setVehiculos } = useContext(SimContext);
+    const { tarifas, setTarifas, estadisticas, valores, setValores } = useContext(SimContext);
     const onSubmit = (data) => {
       setTarifas(data)
     }
@@ -89,9 +89,9 @@ const validationSchema = z.object({
             type="range"
             min={1}
             max={100}
-            value={valores.valor1}
+            value={valores.vehiculos}
             onChange={handleChange}
-            name="valor1"
+            name="vehiculos"
             className="accent-blue-800 w-full"
           />
           <div className="flex justify-between -mt-2 text-white">
@@ -104,7 +104,7 @@ const validationSchema = z.object({
           </div>
           
          
-          <p>Vehiculos seleccionados:  {valores.valor1}</p>
+          <p>Vehiculos seleccionados:  {valores.vehiculos}</p>
         </div>
 
         <div className="relative mb-1 bg-violet-500 opacity-90 rounded-lg p-1 text-md px-4 ">

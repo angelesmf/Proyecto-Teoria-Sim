@@ -16,3 +16,27 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+.animation-tada {
+  animation: tada 2s infinite ease-in-out; /* Cambia la duración total de la animación a 2s */
+  animation-delay: 1s; /* Añade un retraso de 1 segundo antes de que comience la animación */
+}
+
+@keyframes tada {
+  0%, 50% { /* La animación ocurre solo en la primera mitad del tiempo total de la animación */
+    transform: scale(1);
+  }
+  5%, 10% {
+    transform: scale(0.9) rotate(-3deg);
+  }
+  15%, 25%, 35%, 45% {
+    transform: scale(1.1) rotate(3deg);
+  }
+  20%, 30%, 40% {
+    transform: scale(1.1) rotate(-3deg);
+  }
+  50%, 100% { /* La segunda mitad del tiempo total de la animación no hace nada, creando un retraso */
+    transform: scale(1) rotate(0);
+  }
+}

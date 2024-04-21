@@ -30,7 +30,7 @@ export default function Boton({ children, texto, className = '', onClick }) {
       {/* Modal */}
       {modalVisible && (
         <div className='modal-overlay'>
-          <div className='modal bg-violet-500 rounded-2xl'>
+          <div className='modal w-1/2 bg-violet-500/40 backdrop-blur-sm rounded-2xl'>
             <span className='close' onClick={handleModalClose}>
               &times;
             </span>

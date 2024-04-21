@@ -4,12 +4,11 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { SimContext } from '../context/simulador'
 
 export default function SimuladorVista() {
-  const { vehiculos, setVehiculos, tarifas, setEstadisticas, valores } = useContext(SimContext);
+  const { vehiculos, setVehiculos, tarifas, setEstadisticas, valores, actions } = useContext(SimContext);
 
   const [vehiculosCobrados, setVehiculosCobrados] = useState([]);
 
   const VELOCIDAD_ATENCION = valores.atencion * 1000;
-
 
 
 
@@ -25,40 +24,42 @@ export default function SimuladorVista() {
 
   
 useEffect(() => {
-  const VELOCIDAD_SIMULACION = valores.velocidad * 100;
-  console.log(VELOCIDAD_SIMULACION)
-  const interval = setInterval(() => {
-    setVehiculos((vehiculos) =>
-      vehiculos.map((vehiculosCarril) => {
-        // Ordenar los vehículos por posición
-        const vehiculosOrdenados = [...vehiculosCarril].sort((a, b) => a.position - b.position);
-
-        const vehiculosActualizados = vehiculosOrdenados.map((vehiculo, index) => {
-          // Si el vehículo está detenido, no avanzar
-          if (vehiculo.detenido) {
-            return vehiculo;
-          }
-
-          // Si el vehículo está en la caseta, detener y reiniciar posición
-          if (vehiculo.position === 57) {
-            return { ...vehiculo, detenido: true, position: 58 };
-          }
-
-          // Si el vehículo está demasiado cerca del vehículo delante de él, detener
-          if (index < vehiculosOrdenados.length - 1 && vehiculosOrdenados[index + 1].position - vehiculo.position < 10) {
-            return { ...vehiculo, detenido: false };
-          }
-          // En otro caso, avanzar
-          return { ...vehiculo, position: vehiculo.position + 1 };
-        });
-
-        // Filtrar los vehículos que tienen una posición mayor a 100
-        return vehiculosActualizados.filter(vehiculo => vehiculo.position <= 100);
-      })
-    );
-  }, VELOCIDAD_SIMULACION);
-  return () => clearInterval(interval);
-}, [valores.velocidad]);
+  if (actions.play) {
+    const VELOCIDAD_SIMULACION = valores.velocidad * 100;
+    console.log(VELOCIDAD_SIMULACION)
+    const interval = setInterval(() => {
+      setVehiculos((vehiculos) =>
+        vehiculos.map((vehiculosCarril) => {
+          // Ordenar los vehículos por posición
+          const vehiculosOrdenados = [...vehiculosCarril].sort((a, b) => a.position - b.position);
+  
+          const vehiculosActualizados = vehiculosOrdenados.map((vehiculo, index) => {
+            // Si el vehículo está detenido, no avanzar
+            if (vehiculo.detenido) {
+              return vehiculo;
+            }
+  
+            // Si el vehículo está en la caseta, detener y reiniciar posición
+            if (vehiculo.position === 57) {
+              return { ...vehiculo, detenido: true, position: 58 };
+            }
+  
+            // Si el vehículo está demasiado cerca del vehículo delante de él, detener
+            if (index < vehiculosOrdenados.length - 1 && vehiculosOrdenados[index + 1].position - vehiculo.position < 10) {
+              return { ...vehiculo, detenido: false };
+            }
+            // En otro caso, avanzar
+            return { ...vehiculo, position: vehiculo.position + 1 };
+          });
+  
+          // Filtrar los vehículos que tienen una posición mayor a 100
+          return vehiculosActualizados.filter(vehiculo => vehiculo.position <= 100);
+        })
+      );
+    }, VELOCIDAD_SIMULACION);
+    return () => clearInterval(interval);
+  }
+}, [valores.velocidad, actions]);
 
 // Efecto para reanudar los vehículos después de detenerse en la caseta
 useEffect(() => {

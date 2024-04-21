@@ -5,11 +5,11 @@ export default function ModalTabla() {
    const {estadisticas} = useContext(SimContext);
 
   return (
-    <div className="p-6 size-[100%] text-2xl ">
+    <div className="p-6 size-[100%] text-2xl w-full flex flex-col items-center">
       <caption className="flex justify-center text-3xl text-white">
         <b className="text-center ">Reporte</b>
       </caption>
-      <table className="table-auto text-center mt-2">
+      <table className="table-auto text-center mt-2 w-full">
         <thead>
           <tr>
             <th>Peaje</th>
